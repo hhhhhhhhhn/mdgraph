@@ -131,7 +131,11 @@ function Eval(node, parent)
 	if node.type == "Graph" then
 		return string.format(
 [[ digraph A {
-	node [shape=rectangle, size=10, ratio=compress, fontsize=20]
+	layout=twopi
+	graph [ranksep=3]
+	overlap=false
+	splines=true
+	node [shape=rectangle, fontsize=20]
     0 [label=<<B>%s</B>>, fontsize=30]
 %s
 } ]],
