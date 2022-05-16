@@ -1,0 +1,2 @@
+#!/bin/sh
+xclip -sel c -o | lua mdgraph.lua | dot -Tpng | mpv --loop - >/dev/null 2>&1
