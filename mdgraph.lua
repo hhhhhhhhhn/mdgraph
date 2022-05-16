@@ -1,4 +1,12 @@
+#!/usr/bin/lua
 local parse = dofile("./parse.lua")
+
+local layout
+if #arg[1] < 3 then
+	layout = "dot"
+else
+	layout = arg[1]
+end
 
 local function split(input, delimeter)
 	local parts = {}
@@ -131,14 +139,15 @@ function Eval(node, parent)
 	if node.type == "Graph" then
 		return string.format(
 [[ digraph A {
-	layout=twopi
-	graph [ranksep=3]
+	layout=%s
+	graph [ranksep=1]
 	overlap=false
 	splines=true
 	node [shape=rectangle, fontsize=20]
     0 [label=<<B>%s</B>>, fontsize=30]
 %s
 } ]],
+		layout,
 		format(node.children[1].children[2].value),
 		Eval(node.children[2], 0))
 	elseif node.type == "Nodes" then
