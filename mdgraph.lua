@@ -54,6 +54,14 @@ local function indentation_to_brackets(input)
 	return output
 end
 
+local function remove_beggining(input)
+	local start = input:find("#+[^\n]+\n%-")
+	if not start then
+		return "Graph not found"
+	end
+	return input:sub(start)
+end
+
 function Program(input)
 	return parse.some("Program",
 		parse.list("", Graph, Whitespace)
@@ -194,9 +202,9 @@ end
 
 local function main()
 	local stdin = io.read("*a")
-	local input = indentation_to_brackets(stdin)
+	local input = indentation_to_brackets(remove_beggining(stdin))
 	local parsed, rest = Program(input)
-	if rest == "" then
+	if rest:find("%S") then
 		io.stderr:write("\27[31m\27[1mUNPARSED:\n" .. rest .. "\27[0m\n")
 	end
 	print(Eval(parsed))
