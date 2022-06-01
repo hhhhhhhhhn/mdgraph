@@ -74,6 +74,17 @@ function parse.optional(parser)
 	end)
 end
 
+function parse.memoize(parser)
+	local nodes = {}
+	local rests = {}
+	return function (input)
+		if not nodes[input] then
+			nodes[input], rests[input] = parser(input)
+		end
+		return nodes[input], rests[input]
+	end
+end
+
 local function test()
 	local expression, term, factor
 	expression = function(input)
@@ -112,8 +123,7 @@ local function test()
 	end
 end
 
---if ... then
+if false then
+	test()
+end
 return parse
---else
---	test()
---end
